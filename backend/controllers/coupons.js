@@ -1,6 +1,6 @@
 import coupons from "../models/coupon.js"
 
-///couponIssue
+/////////////////////////////////couponIssue/////////////////////////////////////
 export const couponIssue = async (req,res) => {
     const validityEndDate = Date.parse(req.body.validity_end_on)
     const validityStartedAt = Date.parse(req.body.validity_start_from)
@@ -32,7 +32,7 @@ export const couponIssue = async (req,res) => {
         message:"Coupon Created Successfully"
     })
 }
-//couponCancel
+//////////////////////////////////couponCancel///////////////////////////////////////
 export const couponCancel = async (req,res) => {
     const coupon = await coupons.findById(req.params.id)
     const couponstatus = coupon.status
@@ -55,7 +55,7 @@ export const couponCancel = async (req,res) => {
     }
 
 }
-//couponLock
+/////////////////////////////////////couponLock//////////////////////////////////////
 export const couponLock = async (req,res) => {
     const coupon = await coupons.findById(req.params.id)
     const couponstatus = coupon.status
@@ -76,7 +76,7 @@ export const couponLock = async (req,res) => {
     }
     
 }
-//couponUnlock
+///////////////////////////////////couponUnlock/////////////////////////////////////
 export const couponUnlock = async (req,res) => {
     const coupon = await coupons.findById(req.params.id)
     const couponstatus = coupon.status
@@ -120,7 +120,7 @@ export const couponUnlock = async (req,res) => {
         })
     }
 }
-//couponRedeem,
+////////////////////////////////////couponRedeem////////////////////////////////////////
 export const couponRedeem = async (req,res) => {
     const coupon = await coupons.findById(req.params.id)
     const couponstatus = coupon.status
@@ -140,7 +140,7 @@ export const couponRedeem = async (req,res) => {
     }
     
 }
-//couponRetryCreate,
+//////////////////////////////////couponRetryCreate///////////////////////////////////
 export const couponRetryCreate = async (req,res) => {
     res.json({
         status:200,
@@ -148,7 +148,7 @@ export const couponRetryCreate = async (req,res) => {
         message:"Coupon Created Successfully"
     })
 }
-//couponScheduledIssue
+//////////////////////////////////couponScheduledIssue////////////////////////////////
 export const couponScheduledIssue = async (req,res) => {
     res.json({
         status:200,
@@ -156,14 +156,14 @@ export const couponScheduledIssue = async (req,res) => {
         message:"Coupon Created Successfully"
     })
 }
-//couponGetAll,
+//////////////////////////////////////couponGetAll//////////////////////////////////////
 export const couponGetAll = async (req,res) => {
     const coupon = await coupons.find()
     res
     .status(200)
     .json(coupon)
 }
-//couponGetById
+//////////////////////////////////////couponGetById//////////////////////////////////////
 export const couponGetById = async (req,res) => {
     const coupon = await coupons.findById(req.params.id)
     res
@@ -171,7 +171,7 @@ export const couponGetById = async (req,res) => {
     .json(coupon)
 }
 
-//couponOrderCalc
+///////////////////////////////////////couponOrderCalc////////////////////////////////////
 export const couponOrderCalc = async (req,res) => {
     res.json({
         status:200,
@@ -180,7 +180,7 @@ export const couponOrderCalc = async (req,res) => {
     })
 }
 
-//couponGetByStatus
+///////////////////////////////////////couponGetByStatus/////////////////////////////////////
 export const couponGetByStatus = async (req,res) => {
     const coupon = await coupons.find({"status":req.params.status})
     res

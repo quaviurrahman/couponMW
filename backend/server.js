@@ -10,22 +10,24 @@ dotenv.config();
 const port = process.env.PORT
 const app = express ()
 
-//middlewares
+///////////////////////////////middlewares////////////////////////////////
 app.use(express.json())
 app.use("/users",users)
 app.use("/coupons",coupons)
 
-//mongoDB initialize
+////////////////////////////mongoDB initialize//////////////////////////////
 mongoose
   .connect(process.env.MONGODB_URL)
  .then(() => { 
     console.log("Database Connected!")
   })
 
-  //application initialize
+  /////////////////////////application initialize///////////////////////////
   app.listen(port, () => {
     console.log(`Server running on port ${port}`)
 })
+
+////////////////////////////////schedulers//////////////////////////////////
 
 // this is a cron job to fetch the list of coupons which are in sheduled status
 cron.schedule('*/2 * * * * *', () => {
