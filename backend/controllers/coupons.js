@@ -191,11 +191,21 @@ export const couponGetByStatus = async (req,res) => {
 /////////////////////////////////////activateScheduledCoupons/////////////////////////////////
 export const activateScheduledCoupons = async (req,res) => {
     const scheduledcouponlist = await coupons.find({"status":"scheduled"})
-    var i = 0
-    scheduledcouponlist.forEach(activatecoupon(scheduledcouponlist)).then(response => {
-        console.log(response.data)
-    })    
+    scheduledcouponlist.map(activatecoupon)
+    res.json({
+        "status":200,
+        "response":"Successfull",
+        "message":"All scheduled coupons today are activated!"
+    })
+    
+  async function activatecoupon(scheduledcoupons) {
+        const scheduledcoupon = scheduledcoupons
+            if(Date.parse(scheduledcoupon.validity_start_from)<=Date.parse(Date())) {
+            const result = await coupons.findByIdAndUpdate(scheduledcoupon.id,{status:"active"},{new : true})
+            return result
         }
+    }
+}
 
  
 /*     const promises = scheduledcouponlist.map((activatedcouponlist)=>{
@@ -203,11 +213,3 @@ export const activateScheduledCoupons = async (req,res) => {
             return coupons.findByIdAndUpdate(activatedcouponlist.id,{status:"active"},{new : true}).then(())
         }
     }) */
-
-function activatecoupon(scheduledcoupon) {
-    const scheduledcouponlist = scheduledcoupon
-        if(Date.parse(scheduledcouponlist.validity_start_from)<=Date.parse(Date())) {
-        coupons.findByIdAndUypdate(scheduledcouponlist.id,{status:"active"},{new : true})
-        return scheduledcouponlist
-    }
-}
