@@ -1,0 +1,24 @@
+{
+  "name": "mern_website",
+  "version": "1.0.0",
+  "description": "dummy_api",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon ./backend/server.js"
+  },
+  "author": "quaviurRahman",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "body-parser": "^1.20.0",
+    "dotenv": "^16.0.2",
+    "express": "^4.18.1",
+    "git": "^0.1.5",
+    "github": "^14.0.0",
+    "mongoose": "^6.6.1",
+    "node-cron": "^3.0.2",
+    "nodemon": "^2.0.20"
+  }
+}
