@@ -1,11 +1,10 @@
 import express from "express"
-import users from "/03. Personal Projects/MERN_website/backend/routes/user.js"
-import coupons from "/03. Personal Projects/MERN_website/backend/routes/coupon.js"
+import users from "./routes/user.js"
+import coupons from "./routes/coupon.js"
 import dotenv from "dotenv"
 import mongoose from "mongoose"
 import cron from "node-cron"
 import axios from "axios"
-import f from "/03. Personal Projects/MERN_website/backend/utils/scheduledCouponActivation.js"
 
 dotenv.config();
 const port = process.env.PORT
