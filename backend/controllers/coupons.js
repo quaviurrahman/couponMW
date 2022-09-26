@@ -207,9 +207,21 @@ export const activateScheduledCoupons = async (req,res) => {
     }
 }
 
- 
-/*     const promises = scheduledcouponlist.map((activatedcouponlist)=>{
-        if(Date.parse(scheduledcouponlist.validity_start_from)<=Date.parse(Date())) {
-            return coupons.findByIdAndUpdate(activatedcouponlist.id,{status:"active"},{new : true}).then(())
+/////////////////////////////////////expireActiveCoupons/////////////////////////////////
+export const expireActiveCoupons = async (req,res) => {
+    const activecouponlist = await coupons.find({"status":"active"})
+    activecouponlist.map(expirecoupon)
+    res.json({
+        "status":200,
+        "response":"Successfull",
+        "message":"All active coupons with expiration today have been made expired!"
+    })
+    
+  async function expirecoupon(expirecoupons) {
+        const expirecoupon = expirecoupons
+            if(Date.parse(expirecoupon.validity_end_on)>=Date.parse(Date())) {
+            const result = await coupons.findByIdAndUpdate(expirecoupon.id,{status:"expired"},{new : true})
+            return result
         }
-    }) */
+    }
+}
