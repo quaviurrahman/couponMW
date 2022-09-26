@@ -187,3 +187,22 @@ export const couponGetByStatus = async (req,res) => {
     .status(200)
     .json(coupon)
 }
+
+/////////////////////////////////////activateScheduledCoupons/////////////////////////////////
+export const activateScheduledCoupons = async (req,res) => {
+    const scheduledcouponlist = await coupons.find({"status":"scheduled"})
+    var i = 0
+    for(i=0;i>scheduledcouponlist.length-1;i++) {
+        if(Date.parse(scheduledcouponlist[i].validity_start_from)<=Date.parse(Date())) {
+            await coupons.findByIdAndUpdate(scheduledcouponlist[i].id,{status:"active"},{new : true})
+        }
+        else {
+            
+        }
+    }
+    res.json({
+        "status":200,
+        "response":"Successfull",
+        "message":"All Scheduled coupons for today are activated"
+    })
+}

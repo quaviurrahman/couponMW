@@ -10,7 +10,8 @@ import {
     couponGetAll,
     couponGetById,
     couponOrderCalc,
-    couponGetByStatus
+    couponGetByStatus,
+    activateScheduledCoupons
 } from "../controllers/coupons.js"
 
 const router = express.Router()
@@ -26,5 +27,6 @@ router.get("/getall",couponGetAll)
 router.get("/getbyid/:id",couponGetById)
 router.post("/calculate",couponOrderCalc)
 router.get("/getbystatus/:status",couponGetByStatus)
+router.put("/activatescheduledcoupon",activateScheduledCoupons)
 
 export default router

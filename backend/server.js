@@ -5,10 +5,12 @@ import dotenv from "dotenv"
 import mongoose from "mongoose"
 import cron from "node-cron"
 import axios from "axios"
+import f from "/03. Personal Projects/MERN_website/backend/utils/scheduledCouponActivation.js"
 
 dotenv.config();
 const port = process.env.PORT
 const app = express ()
+var scheduledcoupons
 
 ///////////////////////////////middlewares////////////////////////////////
 app.use(express.json())
@@ -30,9 +32,5 @@ mongoose
 ////////////////////////////////schedulers//////////////////////////////////
 
 // this is a cron job to fetch the list of coupons which are in sheduled status
-cron.schedule('*/2 * * * * *', () => {
-  axios
- .get('http://localhost:8800/coupons/getbystatus/scheduled')
- .then(response => {
-   console.log(response.data)})
-})
+
+
