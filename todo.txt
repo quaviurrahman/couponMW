@@ -1,8 +1,10 @@
+Backend
+
 1. scheduler for changing the status from scheduled to active
 2. scheduler for changing the status from active to expired
 3. redemption api 
 5. calcouponamount api
-6. cps calls
+6. cps api mock
 7. notification module
 8. bulk scheduled coupon creation api
 9. rename get to query for the api's
@@ -10,3 +12,8 @@
 11. add redeeming org as array
 12. validate coupon api
 13. introduce bull queue management
+14. user and role management
+
+Frontend
+
+1.

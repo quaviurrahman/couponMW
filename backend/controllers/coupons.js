@@ -1,15 +1,18 @@
 import coupons from "../models/coupon.js"
 
 /////////////////////////////////couponIssue/////////////////////////////////////
-export const couponIssue = async (req,res) => {
+
+/*determining the status of the coupon created. If there is NO schedule date then the status will be in "scheduled" status
+ if validity start date is in the future date or else the status will be "valid". On the other hand if there is a schedule
+ date and its still in the future date then the status will be "scheduled" or else it will check whether the validity start
+ is still in the future date compared to the current date and time. If yes, then the status will be "scheduled" or else the
+ status will be "valid" */
+
+ export const couponIssue = async (req,res) => {
     const validityEndDate = Date.parse(req.body.validity_end_on)
     const validityStartedAt = Date.parse(req.body.validity_start_from)
     const createdAt = Date.parse(Date())
- //determining the status of the coupon created. If there is NO schedule date then the status will be in "scheduled" status
- //if validity start date is in the future date or else the status will be "valid". On the other hand if there is a schedule
- //date and its still in the future date then the status will be "scheduled" or else it will check whether the validity start
- //is still in the future date compared to the current date and time. If yes, then the status will be "scheduled" or else the
- //status will be "valid"
+ 
     var status
     if(createdAt<validityStartedAt) {
         status = "scheduled"
@@ -33,12 +36,14 @@ export const couponIssue = async (req,res) => {
     })
 }
 //////////////////////////////////couponCancel///////////////////////////////////////
+
+/*checking the current status of the coupon before cancelling a coupon. If the current status of the coupon is "redeemed",
+"expired" or "cancelled" then the status cannot be made to "cancelled". Only if the coupon is in "valid" or "scheduled"
+state the coupon can be "cancelled"*/
+
 export const couponCancel = async (req,res) => {
     const coupon = await coupons.findById(req.params.id)
     const couponstatus = coupon.status
-//checking the current status of the coupon before cancelling a coupon. If the current status of the coupon is "redeemed",
-//"expired" or "cancelled" then the status cannot be made to "cancelled". Only if the coupon is in "valid" or "scheduled"
-//state the coupon can be "cancelled"
     if (couponstatus== "redeemed" || couponstatus == "expired" || couponstatus == "cancelled") {
         res.json({
             status:409,
@@ -56,6 +61,10 @@ export const couponCancel = async (req,res) => {
 
 }
 /////////////////////////////////////couponLock//////////////////////////////////////
+
+/* This will mainly used to lock the coupon before redemption or for any 3rd party confirmation for a successfull
+transaction before a coupon is to be redeemed*/
+
 export const couponLock = async (req,res) => {
     const coupon = await coupons.findById(req.params.id)
     const couponstatus = coupon.status
@@ -77,15 +86,18 @@ export const couponLock = async (req,res) => {
     
 }
 ///////////////////////////////////couponUnlock/////////////////////////////////////
+
+/*checking the status of the coupon before unlocking a coupon as only coupon in "locked" status can be "unlocked". However,
+while unlocking there must be a check whether to change the status to "valid","scheduled" or expired state based on the
+coupon VALIDITY compared to the status update date and time*/
+
 export const couponUnlock = async (req,res) => {
     const coupon = await coupons.findById(req.params.id)
     const couponstatus = coupon.status
     const validityStartDate = Date.parse(coupon.validity_start_from)
     const validityEndDate = Date.parse(coupon.validity_end_on)
     const createdAt = Date.parse(Date())
-//checking the status of the coupon before unlocking a coupon as only coupon in "locked" status can be "unlocked". However,
-//while unlocking there must be a check whether to change the status to "valid","scheduled" or expired state based on the
-//coupon VALIDITY compared to the status update date and time
+
 
     if(couponstatus == "locked") {
         if(validityStartDate<createdAt && validityEndDate>createdAt) {
@@ -148,14 +160,6 @@ export const couponRetryCreate = async (req,res) => {
         message:"Coupon Created Successfully"
     })
 }
-//////////////////////////////////couponScheduledIssue////////////////////////////////
-export const couponScheduledIssue = async (req,res) => {
-    res.json({
-        status:200,
-        response:"Successful",
-        message:"Coupon Created Successfully"
-    })
-}
 //////////////////////////////////////couponGetAll//////////////////////////////////////
 export const couponGetAll = async (req,res) => {
     const coupon = await coupons.find()
@@ -189,6 +193,11 @@ export const couponGetByStatus = async (req,res) => {
 }
 
 /////////////////////////////////////activateScheduledCoupons/////////////////////////////////
+
+/* The function of this is to check whether there is any scheduled coupon which is supposed to be activated now and then
+make the status change from scheduled to active if the condition is true. This function will be consumed by scheduler which will
+run periodically automatically to update the status of the coupons where necessary.*/
+
 export const activateScheduledCoupons = async (req,res) => {
     const scheduledcouponlist = await coupons.find({"status":"scheduled"})
     scheduledcouponlist.map(activatecoupon)
@@ -208,6 +217,11 @@ export const activateScheduledCoupons = async (req,res) => {
 }
 
 /////////////////////////////////////expireActiveCoupons/////////////////////////////////
+
+/*The function of this is to check whether there is any active coupn which is supposed to be expired now and then make the 
+status change from active to expired if the condition is true. This function will be consumed by scheduler which will
+run periodically automatically to update the status of the coupons where necessary.*/
+
 export const expireActiveCoupons = async (req,res) => {
     const activecouponlist = await coupons.find({"status":"active"})
     activecouponlist.map(expirecoupon)
