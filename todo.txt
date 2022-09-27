@@ -1,33 +1,39 @@
-Backend
+*********************Backend******************
 
-1. scheduler for changing the status from scheduled to active - done
-2. scheduler for changing the status from active to expired - done 
-3. redemption api 
-5. calcouponamount api
-6. cps api mock
-7. notification module
-8. bulk scheduled coupon creation api
-9. rename get to query for the api's
-10. add share rate as array
-11. add redeeming org as array
-12. validate coupon api
-13. introduce bull queue management
-14. user and role management
-15. Error handling
-16. Coupon Code generator
-17. Query valid coupon list for a coupon holder with/without min order value check
+//////////////////////DONE/////////////////////
+# scheduler for changing the status from scheduled to active
+# scheduler for changing the status from active to expired
+# add redeeming org as array
 
-Frontend - Coupon admin portal
+////////////////////PENDING///////////////////
+# redemption api 
+# calcouponamount api
+# cps api mock
+# notification module
+# bulk scheduled coupon creation api
+# rename get to query for the api's
+# add share rate as array [organization wise, overall campaign wise => If no organization wise share rate found then campaign wise share rate will be considered]
+# validate coupon api
+# introduce bull queue management
+# user and role management
+# Error handling
+# Coupon Code generator
+# Query valid coupon list for a coupon holder with/without min order value check
 
-1. Login
-2. Registration
-3. Coupon creation
-4. Bulk scheduled/instant coupon creation
-5. Coupon status management
-6. Reports
-7. Dashboards
-8. Middleware Performance
-9. Flag management
-10. Comments and remarks
-11. History of coupon activity
-12. Coupon details page
+**************Frontend - Coupon admin portal*************
+
+//////////////////////DONE////////////////////
+
+/////////////////////PENDING//////////////////
+# Login
+# Registration
+# Coupon creation
+# Bulk scheduled/instant coupon creation
+# Coupon status management
+# Reports
+# Dashboards
+# Middleware Performance
+# Flag management
+# Comments and remarks
+# History of coupon activity
+# Coupon details page

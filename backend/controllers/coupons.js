@@ -1,5 +1,4 @@
 import coupons from "../models/coupon.js"
-
 /////////////////////////////////couponIssue/////////////////////////////////////
 
 /*determining the status of the coupon created. If there is NO schedule date then the status will be in "scheduled" status
@@ -188,10 +187,24 @@ There are four cases here:
 4. Discount on order charge value */
 
 export const couponOrderCalc = async (req,res) => {
+    //global const throughout this function
     const principal_order_value = req.body.principalOrderValue
     const charge_value = req.body.chargeValue
     const coupon_applied_id = req.body.couponID
     const coupon_discount_details = await coupons.findById(coupon_applied_id)
+    const redeeming_party_share_rates =  coupon_discount_details.discountShare
+    const redeeming_party_share_rate = redeeming_party_share_rates.map(findShareRate)
+    const shareRateAmount = redeeming_party_share_rate.filter(function (element) {
+        return element != null
+    })
+    
+    function findShareRate (shareRates) {
+        const share_Rate = shareRates
+        if (req.body.redeemingPartyID == share_Rate.redeemingPartyID) {
+            const result = share_Rate.shareRate
+            return result
+        }else return null
+        }
     
     //Discount on Principal order value [considering share rate]
 if(coupon_discount_details.discountOrderComponent == "principal") {
@@ -201,6 +214,7 @@ if(coupon_discount_details.discountOrderComponent == "principal") {
             const discountValue = coupon_discount_details.max_discountAmount
             const discountedPrincipalValue = principal_order_value - discountValue
             const discountedTotalOrderValue =  discountedPrincipalValue + charge_value
+            const redeeming_party_share_rate_amount = (discountValue*(shareRateAmount/100))
             res.json({
                 "status":200,
                 "response":"Successful",
@@ -209,12 +223,14 @@ if(coupon_discount_details.discountOrderComponent == "principal") {
                     "discountValue":discountValue,
                     "discountedPrincipalValue":discountedPrincipalValue,
                     "originalChargeValue":charge_value,
-                    "discountedTotalOrderValue":discountedTotalOrderValue
+                    "discountedTotalOrderValue":discountedTotalOrderValue,
+                    "redeemingPartyDiscountShareAmount":redeeming_party_share_rate_amount
                 }
             })
         } else {
             const discountedPrincipalValue = principal_order_value - discountValue
             const discountedTotalOrderValue =  discountedPrincipalValue + charge_value
+            const redeeming_party_share_rate_amount = (discountValue*(shareRateAmount/100))
             res.json({
                 "status":200,
                 "response":"Successful",
@@ -223,13 +239,15 @@ if(coupon_discount_details.discountOrderComponent == "principal") {
                     "discountValue":discountValue,
                     "discountedPrincipalValue":discountedPrincipalValue,
                     "originalChargeValue":charge_value,
-                    "discountedTotalOrderValue":discountedTotalOrderValue
+                    "discountedTotalOrderValue":discountedTotalOrderValue,
+                    "redeemingPartyDiscountShareAmount":redeeming_party_share_rate_amount
                  }
                 })
             }
     } else if (coupon_discount_details.discountType == "flat") {
         const discountValue = coupon_discount_details.discountAmount
         const discountedPrincipalValue = (principal_order_value - discountValue)
+        const redeeming_party_share_rate_amount = (discountValue*(shareRateAmount/100))
         if(discountedPrincipalValue < 0) {
             res.json({
                 "status":400,
@@ -246,13 +264,16 @@ if(coupon_discount_details.discountOrderComponent == "principal") {
                     "discountValue":discountValue,
                     "discountedPrincipalValue":discountedPrincipalValue,
                     "originalChargeValue":charge_value,
-                    "discountedTotalOrderValue":discountedTotalOrderValue
+                    "discountedTotalOrderValue":discountedTotalOrderValue,
+                    "redeemingPartyDiscountShareAmount":redeeming_party_share_rate_amount
                  }
                 })
         }
 
     }
-} else if(coupon_discount_details.discountOrderComponent == "charge"){
+} 
+// Discount on Principal order value [NOT considering share rate]
+else if(coupon_discount_details.discountOrderComponent == "charge"){
     const discountValue = req.body.chargeValue
     const discountedChargeValue = charge_value - discountValue
     const discountedTotalOrderValue = principal_order_value + discountedChargeValue
@@ -299,15 +320,7 @@ export const activateScheduledCoupons = async (req,res) => {
         "response":"Successfull",
         "message":"All scheduled coupons today are activated!"
     })
-    
-  async function activatecoupon(scheduledcoupons) {
-        const scheduledcoupon = scheduledcoupons
-            if(Date.parse(scheduledcoupon.validity_start_from)<=Date.parse(Date())) {
-            const result = await coupons.findByIdAndUpdate(scheduledcoupon.id,{status:"active"},{new : true})
-            return result
-        }
     }
-}
 
 /////////////////////////////////////expireActiveCoupons/////////////////////////////////
 
