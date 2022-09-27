@@ -225,9 +225,9 @@ if(coupon_discount_details.discountOrderComponent == "principal") {
                  }
                 })
             }
-    } else if (coupon_discount_details.discountOrderComponent == "flat") {
+    } else if (coupon_discount_details.discountType == "flat") {
         const discountValue = coupon_discount_details.discountAmount
-        const discountedPrincipalValue = (principal_order_value-discountValue)
+        const discountedPrincipalValue = (principal_order_value - discountValue)
         if(discountedPrincipalValue < 0) {
             res.json({
                 "status":400,
