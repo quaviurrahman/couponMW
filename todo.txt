@@ -4,10 +4,10 @@
 # scheduler for changing the status from scheduled to active
 # scheduler for changing the status from active to expired
 # add redeeming org as array
+# calcouponamount api
 
 ////////////////////PENDING///////////////////
 # redemption api 
-# calcouponamount api
 # cps api mock
 # notification module
 # bulk scheduled coupon creation api
