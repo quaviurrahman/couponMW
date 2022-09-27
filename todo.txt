@@ -1,7 +1,7 @@
 Backend
 
-1. scheduler for changing the status from scheduled to active
-2. scheduler for changing the status from active to expired
+1. scheduler for changing the status from scheduled to active - done
+2. scheduler for changing the status from active to expired - done 
 3. redemption api 
 5. calcouponamount api
 6. cps api mock
@@ -13,7 +13,21 @@ Backend
 12. validate coupon api
 13. introduce bull queue management
 14. user and role management
+15. Error handling
+16. Coupon Code generator
+17. Query valid coupon list for a coupon holder with/without min order value check
 
-Frontend
+Frontend - Coupon admin portal
 
-1.
+1. Login
+2. Registration
+3. Coupon creation
+4. Bulk scheduled/instant coupon creation
+5. Coupon status management
+6. Reports
+7. Dashboards
+8. Middleware Performance
+9. Flag management
+10. Comments and remarks
+11. History of coupon activity
+12. Coupon details page

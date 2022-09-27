@@ -7,8 +7,9 @@ const coupon = new mongoose.Schema ({
     desc_1:{type:String,required:false},
     desc_2:{type:String,required:false},
     desc_3:{type:String,required:false},
-    discountType:{type:String,required:true},
-    discountAmount:{type:Number,required:true},
+    discountType:{type:String,required:true}, //There are two type of discount that can be passed - "percentage", "flat"
+    discountAmount:{type:Number,required:true}, //This is the percentage or flat value amount of the discount
+    discountOrderComponent:{type:String,required:true}, //Initially an order component is devided in 2 parts - "principal", "charge"
     max_discountAmount:{type:Number,required:false},
     redeemingServiceID:{type:Number,required:true},
     redeemingOrgID:{type:String,required:true},

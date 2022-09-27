@@ -2,7 +2,7 @@ import express from "express"
 import users from "./routes/user.js"
 import coupons from "./routes/coupon.js"
 import dotenv from "dotenv"
-import mongoose from "mongoose"
+import mongoose, { get } from "mongoose"
 import cron from "node-cron"
 import axios from "axios"
 
@@ -30,6 +30,17 @@ mongoose
 
 ////////////////////////////////schedulers//////////////////////////////////
 
-// this is a cron job to fetch the list of coupons which are in sheduled status
+// scheduler to activate scheduled coupons which runs every 6 hours
+//cron.schedule('* * */6 * * *',()=>{
+//  axios
+//  .get('http://localhost:8800/coupons/activatescheduledcoupons')
+//  .then(console.log(response.data))
+//})
 
+// scheduler to expire coupons which runs every 6 hours
+//cron.schedule('* * */6 * * *',()=>{
+//  axios
+//  .get('http://localhost:8800/coupons/expireactivecoupons')
+//  .then(console.log(response.data))
+//})
 
