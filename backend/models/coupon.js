@@ -12,7 +12,10 @@ const coupon = new mongoose.Schema ({
     discountOrderComponent:{type:String,required:true}, //Initially an order component is devided in 2 parts - "principal", "charge"
     max_discountAmount:{type:Number,required:false},
     redeemingServiceID:{type:[String],required:true},
-    redeemingOrgID:{type:String,required:true},
+    discountShare:{type:[{
+        redeemingPartyID: {type:String, required:true},
+        shareRate: {type:Number, required:true}
+    }],required:true},
     image_1:{type:String,required:false},
     image_2:{type:String,required:false},
     image_3:{type:String,required:false},
