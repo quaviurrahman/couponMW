@@ -205,9 +205,10 @@ if(coupon_discount_details.discountOrderComponent == "principal") {
                 "status":200,
                 "response":"Successful",
                 "message":{
+                    "originalPrincipalValue":principal_order_value,
                     "discountValue":discountValue,
                     "discountedPrincipalValue":discountedPrincipalValue,
-                    "chargeValue":charge_value,
+                    "originalChargeValue":charge_value,
                     "discountedTotalOrderValue":discountedTotalOrderValue
                 }
             })
@@ -218,9 +219,10 @@ if(coupon_discount_details.discountOrderComponent == "principal") {
                 "status":200,
                 "response":"Successful",
                 "message":{
+                    "originalPrincipalValue":principal_order_value,
                     "discountValue":discountValue,
                     "discountedPrincipalValue":discountedPrincipalValue,
-                    "chargeValue":charge_value,
+                    "originalChargeValue":charge_value,
                     "discountedTotalOrderValue":discountedTotalOrderValue
                  }
                 })
@@ -240,15 +242,32 @@ if(coupon_discount_details.discountOrderComponent == "principal") {
                 "status":200,
                 "response":"Successful",
                 "message":{
+                    "originalPrincipalValue":principal_order_value,
                     "discountValue":discountValue,
                     "discountedPrincipalValue":discountedPrincipalValue,
-                    "chargeValue":charge_value,
+                    "originalChargeValue":charge_value,
                     "discountedTotalOrderValue":discountedTotalOrderValue
                  }
                 })
         }
 
     }
+} else if(coupon_discount_details.discountOrderComponent == "charge"){
+    const discountValue = req.body.chargeValue
+    const discountedChargeValue = charge_value - discountValue
+    const discountedTotalOrderValue = principal_order_value + discountedChargeValue
+    res.json({
+        "status":200,
+        "response":"Successful",
+        "message":{
+            "originalChargeValue":charge_value,
+            "discountValue":discountValue,
+            "originalPrincipalValue":principal_order_value,
+            "discountedChargeValue":discountedChargeValue,
+            "discountedTotalOrderValue":discountedTotalOrderValue
+        }
+    })
+
 } else {
     res.json({
         "status":200,
