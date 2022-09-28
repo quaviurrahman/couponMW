@@ -1,6 +1,8 @@
 import express from "express"
 import users from "./routes/user.js"
 import coupons from "./routes/coupon.js"
+import cps_transactions from "./middlewares/cps/routes/transactions.js"
+import paymentOrder_transactions from "./middlewares/paymentOrder/routes/transactionProcessor.js"
 import dotenv from "dotenv"
 import mongoose, { get } from "mongoose"
 import cron from "node-cron"
@@ -11,10 +13,18 @@ const port = process.env.PORT
 const app = express ()
 var scheduledcoupons
 
-///////////////////////////////middlewares////////////////////////////////
+///////////////////////////////Coupon_Middleware////////////////////////////////
 app.use(express.json())
 app.use("/users",users)
 app.use("/coupons",coupons)
+
+///////////////////////////////CPS_Middleware////////////////////////////////
+
+app.use("/cps/transactions",cps_transactions)
+
+///////////////////////////////PaymentOrder_Middleware///////////////////////
+
+app.use("/paymentOrder/transaction",paymentOrder_transactions)
 
 ////////////////////////////mongoDB initialize//////////////////////////////
 mongoose

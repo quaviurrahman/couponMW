@@ -1,4 +1,22 @@
+///////////////////////////////////CONTENT///////////////////////////////////////
+/*
+# Coupon Issue
+# Coupon Cancel
+# Coupon Lock
+# Coupon Unlock
+# Coupon Redeem
+# Coupon Retry Create
+# Coupon Get All
+# Coupon Get By ID
+# Coupon Order Calc
+# Coupon Get By Status
+# Activate Scheduled Coupons
+# Expire Active Coupons
+*/
+
+
 import coupons from "../models/coupon.js"
+
 /////////////////////////////////couponIssue/////////////////////////////////////
 
 /*determining the status of the coupon created. If there is NO schedule date then the status will be in "scheduled" status
@@ -132,6 +150,7 @@ export const couponUnlock = async (req,res) => {
     }
 }
 ////////////////////////////////////couponRedeem////////////////////////////////////////
+
 export const couponRedeem = async (req,res) => {
     const coupon = await coupons.findById(req.params.id)
     const couponstatus = coupon.status
