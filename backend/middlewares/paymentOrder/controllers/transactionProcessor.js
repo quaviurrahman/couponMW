@@ -8,12 +8,21 @@ This function is responsible for processing a transaction by calling necessary A
 
 import axios from "axios"
 
-export const merchant_payment_with_coupon = async (req,res)=> {
+export const merchant_payment_with_coupon = (req,res)=> {
+const coupon_id = req.body.couponID
+    
 //////////////////////Lock Coupon
-axios
+
+    const URL = `http://localhost:8800/coupons/lock/${coupon_id}`
+    axios.put(URL)
+    .then(function(response){
+        const result = response.data
+        res.json(result)
+    })
 
 /////////////////////Process Transaction
 
 
 /////////////////////Redeem/Unlock Coupon
 }
+export default merchant_payment_with_coupon
