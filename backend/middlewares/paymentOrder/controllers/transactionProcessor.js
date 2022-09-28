@@ -8,21 +8,56 @@ This function is responsible for processing a transaction by calling necessary A
 
 import axios from "axios"
 
-export const merchant_payment_with_coupon = (req,res)=> {
+export const merchant_payment_with_coupon = async (req,res)=> {
 const coupon_id = req.body.couponID
-    
-//////////////////////Lock Coupon
 
-    const URL = `http://localhost:8800/coupons/lock/${coupon_id}`
-    axios.put(URL)
-    .then(function(response){
-        const result = response.data
-        res.json(result)
-    })
+//////////////////////Lock Coupon
+const firstStep = lockCoupon(coupon_id)
+const lockcouponresponse = await firstStep
+//res.json(lockcouponresponse)
 
 /////////////////////Process Transaction
-
-
-/////////////////////Redeem/Unlock Coupon
+if(lockcouponresponse.status == 200) {
+    const secondStep = processtransaction()
+    const processtransactionresponse = await secondStep
+    //    res.json(processtransactionresponse)
+ /////////////////////Redeem/Unlock Coupon
+    if(processtransactionresponse.status == 200) {
+        const thirdStep = redeemcoupon(coupon_id)
+        const redeemcouponresult = await thirdStep
+        res.json(redeemcouponresult)
+    }
+} else {
+    const secondStep = unlockcoupon(coupon_id)
+    const unlockcouponresponse = await secondStep
+    res.json(unlockcouponresponse)
 }
+}
+
+//////////////////////////////////Middleware API calls///////////////////////////////////
+
+async function lockCoupon (couponID) {
+    const URL = `http://localhost:8800/coupons/lock/${couponID}`
+    const result = await axios.put(URL)
+    return await result.data
+}
+
+async function processtransaction () {
+    const URL = 'http://localhost:8800/cps/transactions/init_trans_merchant_payment'
+    const result = await axios.post(URL)
+    return await result.data
+}
+
+async function redeemcoupon (couponID) {
+    const URL = `http://localhost:8800/coupons/redeem/${couponID}`
+    const result = await axios.put(URL)
+    return await result.data
+}
+
+async function unlockcoupon (couponID) {
+    const URL = `http://localhost:8800/coupons/unlock/${couponID}`
+    const result = await axios.put(URL)
+    return await result.data
+}
+
 export default merchant_payment_with_coupon
