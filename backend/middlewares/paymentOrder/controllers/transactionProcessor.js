@@ -14,23 +14,37 @@ const coupon_id = req.body.couponID
 //////////////////////Lock Coupon
 const firstStep = lockCoupon(coupon_id)
 const lockcouponresponse = await firstStep
-//res.json(lockcouponresponse)
 
 /////////////////////Process Transaction
 if(lockcouponresponse.status == 200) {
     const secondStep = processtransaction()
     const processtransactionresponse = await secondStep
-    //    res.json(processtransactionresponse)
+    
  /////////////////////Redeem/Unlock Coupon
     if(processtransactionresponse.status == 200) {
         const thirdStep = redeemcoupon(coupon_id)
         const redeemcouponresult = await thirdStep
-        res.json(redeemcouponresult)
-    }
+        res.json({
+            "status":200,
+            "response":"Successful",
+            "message":"Transaction has been processed successfully. Coupon has been redeemed!",
+            "lockCouponResponse":{lockcouponresponse},
+            "processTrnxResponse":{processtransactionresponse},
+            "redeemCouponResponse":{redeemcouponresult}
+    })
+}
+
 } else {
     const secondStep = unlockcoupon(coupon_id)
     const unlockcouponresponse = await secondStep
-    res.json(unlockcouponresponse)
+    res.json({
+        "status":200,
+        "response":"Successful",
+        "message":"Transaction has been processed successfully. Coupon has been redeemed!",
+        "lockCouponResponse":{lockcouponresponse},
+        "processTrnxResponse":"Skipped!",
+        "redeemCouponResponse":{unlockcouponresponse}
+})
 }
 }
 
@@ -44,8 +58,11 @@ async function lockCoupon (couponID) {
 
 async function processtransaction () {
     const URL = 'http://localhost:8800/cps/transactions/init_trans_merchant_payment'
-    const result = await axios.post(URL)
-    return await result.data
+    const result = await axios.post(URL,{
+        validateStaus: function (status) {
+          return status < 500;} // Resolve only if the status code is less than 500
+        }).catch(function(error) { console.log(error)})
+        if(await result.data == undefined) { return error.response.data} else { return result.data}
 }
 
 async function redeemcoupon (couponID) {

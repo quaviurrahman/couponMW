@@ -29,7 +29,7 @@ import coupons from "../models/coupon.js"
     const validityEndDate = Date.parse(req.body.validity_end_on)
     const validityStartedAt = Date.parse(req.body.validity_start_from)
     const createdAt = Date.parse(Date())
- 
+
     var status
     if(createdAt<validityStartedAt) {
         status = "scheduled"
@@ -86,7 +86,7 @@ export const couponLock = async (req,res) => {
     const coupon = await coupons.findById(req.params.id)
     const couponstatus = coupon.status
 //checking the current status of the coupon before locking a coupon as coupon can be only locked when its it "valid" status
-    if(couponstatus == "valid") {
+    if(couponstatus == "active") {
         await coupons.findByIdAndUpdate(req.params.id,{status:"locked", locked_at:Date()},{new : true})
         res.json({
             status:200,
@@ -118,7 +118,7 @@ export const couponUnlock = async (req,res) => {
 
     if(couponstatus == "locked") {
         if(validityStartDate<createdAt && validityEndDate>createdAt) {
-            await coupons.findByIdAndUpdate(req.params.id,{status:"valid",unlocked_at:Date()},{new : true})
+            await coupons.findByIdAndUpdate(req.params.id,{status:"active",unlocked_at:Date()},{new : true})
             res.json({
                 status:200,
                 response:"Successful",
@@ -154,7 +154,7 @@ export const couponUnlock = async (req,res) => {
 export const couponRedeem = async (req,res) => {
     const coupon = await coupons.findById(req.params.id)
     const couponstatus = coupon.status
-    if(couponstatus == "valid" || couponstatus == "locked") {
+    if(couponstatus == "active" || couponstatus == "locked") {
         await coupons.findByIdAndUpdate(req.params.id,{status:"redeemed",redeemed_at:Date()},{new :true})
         res.json({
             status:200,
