@@ -5,14 +5,15 @@
 # scheduler for changing the status from active to expired
 # add redeeming org as array
 # calcouponamount api
-
-////////////////////PENDING///////////////////
 # redemption api 
 # cps api mock
-# notification module
-# bulk scheduled coupon creation api
 # rename get to query for the api's
 # add share rate as array [organization wise, overall campaign wise => If no organization wise share rate found then campaign wise share rate will be considered]
+
+////////////////////PENDING///////////////////
+
+# notification module
+# bulk scheduled coupon creation api
 # validate coupon api
 # introduce bull queue management
 # user and role management
