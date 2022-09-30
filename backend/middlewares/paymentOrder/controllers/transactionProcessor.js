@@ -58,10 +58,7 @@ async function lockCoupon (couponID) {
 
 async function processtransaction () {
     const URL = 'http://localhost:8800/cps/transactions/init_trans_merchant_payment'
-    const result = await axios.post(URL,{
-        validateStaus: function (status) {
-          return status < 500;} // Resolve only if the status code is less than 500
-        }).catch(function(error) { console.log(error)})
+    const result = await axios.post(URL)
         if(await result.data == undefined) { return error.response.data} else { return result.data}
 }
 

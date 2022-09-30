@@ -11,7 +11,8 @@ import {
     couponOrderCalc,
     couponGetByStatus,
     activateScheduledCoupons,
-    expireActiveCoupons
+    expireActiveCoupons,
+    activecouponlistofuser
 } from "../controllers/coupons.js"
 
 const router = express.Router()
@@ -28,5 +29,7 @@ router.post("/calculate",couponOrderCalc)
 router.get("/querybystatus/:status",couponGetByStatus)
 router.put("/activatescheduledcoupons",activateScheduledCoupons)
 router.put("/expireactivecoupons",expireActiveCoupons)
+router.get("/activecouponlistofuser",activecouponlistofuser)
+
 
 export default router

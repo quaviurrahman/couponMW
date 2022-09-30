@@ -10,16 +10,24 @@
 # rename get to query for the api's
 # add share rate as array [organization wise, overall campaign wise => If no organization wise share rate found then campaign wise share rate will be considered]
 
+////////////////////IN PROGRESS///////////////////
+
+# Query valid coupon list for a coupon holder with/without min order value check
+# Create API for pre-transaction calculation of selected coupon in Payment Module system
+
 ////////////////////PENDING///////////////////
 
 # notification module
-# bulk scheduled coupon creation api
-# validate coupon api
+# bulk scheduled coupon creation api //installed npm xlsx package for reading and writing form xlsx files
+# Coupon Query by ID & Active Status
 # introduce bull queue management
 # user and role management
 # Error handling
 # Coupon Code generator
-# Query valid coupon list for a coupon holder with/without min order value check
+# Report generating api
+# retry coupon issue for failed coupon issue
+# retry coupon redeem for failed coupon redeem
+# centralized activity log
 
 **************Frontend - Coupon admin portal*************
 

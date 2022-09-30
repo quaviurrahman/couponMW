@@ -6,12 +6,15 @@
 # Coupon Unlock
 # Coupon Redeem
 # Coupon Retry Create
-# Coupon Get All
-# Coupon Get By ID
+# Coupon Query All
+# Coupon Query By ID
 # Coupon Order Calc
-# Coupon Get By Status
+# Coupon Query By Status
+# Coupon Query by ID & Active Status
+# Coupon Query by HolderID and Active Status
 # Activate Scheduled Coupons
 # Expire Active Coupons
+# Coupon Validate
 */
 
 
@@ -363,4 +366,37 @@ export const expireActiveCoupons = async (req,res) => {
             return result
         }
     }
+}
+
+///////////////////Active Coupon Query by ID, Service and Redeeming Org for a specific Coupon Holder////////////////////////
+
+export const activecouponlistofuser = async (req,res) => {
+    //This are the parameters fetched from the API request parameters
+    const holder_id = req.body.holderID
+    const service_id = req.body.serviceID
+    //const redeeming_org_id = req.body.remdeemingOrgID
+
+    //The API parameters will be used to filter out coupon data here
+    const activecouponlist = await coupons.find({"status":"active"})
+    const activecouponlistforuser = activecouponlist.filter(checkforholdermatch(holder_id,activecouponlist.holderID))
+    const getserviceids = activecouponlistforuser.redeemingServiceID
+    const servicefilteredactivecouponlistforuser = activecouponlistforuser.filter(checkforservicematch(service_id,getserviceids))
+
+    res.json({
+        "status":200,
+        "response":"Successful",
+        "activecouponlist":{servicefilteredactivecouponlistforuser}
+    })
+
+function checkforservicematch (inputData,storedData) {
+    if (inputData == storedData){
+        return true
+    }else return false
+}
+
+function checkforholdermatch (inputData,storedData) {
+    if (inputData == storedData) {
+        return true
+    }else return false
+}
 }
