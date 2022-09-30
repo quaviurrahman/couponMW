@@ -5,7 +5,7 @@
 # scheduler for changing the status from active to expired
 # add redeeming org as array
 # calcouponamount api
-# redemption api 
+# redemption api
 # cps api mock
 # rename get to query for the api's
 # add share rate as array [organization wise, overall campaign wise => If no organization wise share rate found then campaign wise share rate will be considered]

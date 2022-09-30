@@ -374,29 +374,28 @@ export const activecouponlistofuser = async (req,res) => {
     //This are the parameters fetched from the API request parameters
     const holder_id = req.body.holderID
     const service_id = req.body.serviceID
-    //const redeeming_org_id = req.body.remdeemingOrgID
+    const redeeming_org_id = req.body.redeemingOrgID
 
     //The API parameters will be used to filter out coupon data here
-    const activecouponlist = await coupons.find({"status":"active"})
-    const activecouponlistforuser = activecouponlist.filter(checkforholdermatch(holder_id,activecouponlist.holderID))
-    const getserviceids = activecouponlistforuser.redeemingServiceID
-    const servicefilteredactivecouponlistforuser = activecouponlistforuser.filter(checkforservicematch(service_id,getserviceids))
+    const couponlistforuser = await coupons.find({"holderId":holder_id})
+    const activecouponlistforuser = couponlistforuser.filter(function(status) {
+        return status.status == "active"
+    })
+    const activecouponlistforuserfilteredbyservice = activecouponlistforuser.filter(function(service) {
+        for(let items in service.redeemingServiceID){
+        return service.redeemingServiceID[items] == service_id
+        }
+    })
+    const activecouponlistforuserfilteredbyserviceandredeemingorg = activecouponlistforuserfilteredbyservice.filter(function(redeemingorg) {
+        for(let items in redeemingorg.discountShare) {
+                return redeemingorg.discountShare[items].redeemingPartyID == redeeming_org_id
+        }
+    })
+    //const getserviceids = await activecouponlistforuser.redeemingServiceID
 
     res.json({
         "status":200,
         "response":"Successful",
-        "activecouponlist":{servicefilteredactivecouponlistforuser}
+        activecouponlistforuserfilteredbyserviceandredeemingorg
     })
-
-function checkforservicematch (inputData,storedData) {
-    if (inputData == storedData){
-        return true
-    }else return false
-}
-
-function checkforholdermatch (inputData,storedData) {
-    if (inputData == storedData) {
-        return true
-    }else return false
-}
 }
