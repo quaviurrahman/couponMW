@@ -19,7 +19,6 @@
 
 # notification module
 # bulk scheduled coupon creation api //installed npm xlsx package for reading and writing form xlsx files
-# Coupon Query by ID & Active Status
 # introduce bull queue management
 # user and role management
 # Error handling
