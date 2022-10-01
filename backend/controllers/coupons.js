@@ -387,10 +387,13 @@ export const activecouponlistofuser = async (req,res) => {
         }
     })
     const activecouponlistforuserfilteredbyserviceandredeemingorg = activecouponlistforuserfilteredbyservice.filter(function(redeemingorg) {
-        for(let items in redeemingorg.discountShare) {
-                return redeemingorg.discountShare[items].redeemingPartyID == redeeming_org_id
+        for(let item in redeemingorg.discountShare) {
+            const items = redeemingorg.discountShare[item]
+            if(items.redeemingPartyID == redeeming_org_id){
+                return true }
         }
     })
+
     //const getserviceids = await activecouponlistforuser.redeemingServiceID
 
     res.json({
