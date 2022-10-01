@@ -19,7 +19,7 @@ const coupon = new mongoose.Schema ({
     image_1:{type:String,required:false},
     image_2:{type:String,required:false},
     image_3:{type:String,required:false},
-    max_trnx_amount:{type:Number,required:true},
+    min_trnx_amount:{type:Number,required:true},
     validity_start_from:{type:Date,required:true},
     validity_end_on:{type:Date,required:true},
     status:{type:String,required:true}, //status can be the following - valid, expired, cancelled, scheduled, redeemed,failed

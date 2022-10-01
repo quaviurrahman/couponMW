@@ -375,6 +375,7 @@ export const activecouponlistofuser = async (req,res) => {
     const holder_id = req.body.holderID
     const service_id = req.body.serviceID
     const redeeming_org_id = req.body.redeemingOrgID
+    const principal_order_value = req.body.principalOrderValue
 
     //The API parameters will be used to filter out coupon data here
     const couponlistforuser = await coupons.find({"holderId":holder_id})
@@ -393,12 +394,16 @@ export const activecouponlistofuser = async (req,res) => {
                 return true }
         }
     })
+    const filterMinTrnxAmountCheck = activecouponlistforuserfilteredbyserviceandredeemingorg.filter(function (list) {
+        return list.min_trnx_amount <= principal_order_value
+    })
 
     //const getserviceids = await activecouponlistforuser.redeemingServiceID
 
     res.json({
         "status":200,
         "response":"Successful",
-        activecouponlistforuserfilteredbyserviceandredeemingorg
+        "filteredListWithoutMinTrnxCheck": activecouponlistforuserfilteredbyserviceandredeemingorg,
+        "filteredListWithMinTrnxCheck": filterMinTrnxAmountCheck
     })
 }
