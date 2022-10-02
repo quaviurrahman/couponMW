@@ -25,8 +25,8 @@ app.use("/cps/transactions",cps_transactions)
 
 ///////////////////////////////PaymentOrder_Middleware///////////////////////
 
-app.use("/paymentOrder",paymentOrder_transactions)
-app.use("/paymentOrder",paymentOrder_calculations)
+app.use("/paymentOrder/process",paymentOrder_transactions)
+app.use("/paymentOrder/calulate",paymentOrder_calculations)
 
 ////////////////////////////mongoDB initialize//////////////////////////////
 mongoose
