@@ -3,6 +3,7 @@ import users from "./routes/user.js"
 import coupons from "./routes/coupon.js"
 import cps_transactions from "./middlewares/cps/routes/transactions.js"
 import paymentOrder_transactions from "./middlewares/paymentOrder/routes/transactionProcessor.js"
+import paymentOrder_calculations from "./middlewares/paymentOrder/routes/transactionCalculator.js"
 import dotenv from "dotenv"
 import mongoose, { get } from "mongoose"
 import cron from "node-cron"
@@ -24,7 +25,8 @@ app.use("/cps/transactions",cps_transactions)
 
 ///////////////////////////////PaymentOrder_Middleware///////////////////////
 
-app.use("/paymentOrder/transaction",paymentOrder_transactions)
+app.use("/paymentOrder",paymentOrder_transactions)
+app.use("/paymentOrder",paymentOrder_calculations)
 
 ////////////////////////////mongoDB initialize//////////////////////////////
 mongoose

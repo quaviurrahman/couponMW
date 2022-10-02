@@ -9,10 +9,10 @@
 # cps api mock
 # rename get to query for the api's
 # add share rate as array [organization wise, overall campaign wise => If no organization wise share rate found then campaign wise share rate will be considered]
+# Query valid coupon list for a coupon holder with/without min order value check
 
 ////////////////////IN PROGRESS///////////////////
 
-# Query valid coupon list for a coupon holder with/without min order value check
 # Create API for pre-transaction calculation of selected coupon in Payment Module system
 
 ////////////////////PENDING///////////////////
@@ -27,6 +27,9 @@
 # retry coupon issue for failed coupon issue
 # retry coupon redeem for failed coupon redeem
 # centralized activity log
+# user creation API
+# user login API
+# access contoll for users
 
 **************Frontend - Coupon admin portal*************
 
