@@ -19,14 +19,14 @@ app.use(express.json())
 app.use("/users",users)
 app.use("/coupons",coupons)
 
-///////////////////////////////CPS_Middleware////////////////////////////////
+///////////////////////////////CPS_Middleware [MOCK]////////////////////////////////
 
 app.use("/cps/transactions",cps_transactions)
 
-///////////////////////////////PaymentOrder_Middleware///////////////////////
+///////////////////////////////PaymentOrder_Middleware [MOCK]///////////////////////
 
 app.use("/paymentOrder/process",paymentOrder_transactions)
-app.use("/paymentOrder/calulate",paymentOrder_calculations)
+app.use("/paymentOrder/calculate",paymentOrder_calculations)
 
 ////////////////////////////mongoDB initialize//////////////////////////////
 mongoose

@@ -127,9 +127,9 @@ else if(coupon_discount_details.discountOrderComponent == "charge"){
 //////////////////////////////////Middleware API calls///////////////////////////////////
 
 async function queryCoupon (couponID) {
-    const URL = `http://localhost:8800/coupons/lock/${couponID}`
-    const result = await axios.put(URL)
-    return await result.data
+    const URL = `http://localhost:8800/coupons/querybyid/${couponID}`
+    const result = await axios.get(URL)
+    if(await result.data == undefined) { return error.response.data} else { return result.data}
 }
 
 export default couponOrderCalc
