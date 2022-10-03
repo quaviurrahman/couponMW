@@ -27,7 +27,7 @@ if(lockcouponresponse.status == 200) {
         res.json({
             "status":200,
             "response":"Successful",
-            "message":"Transaction has been processed successfully. Coupon has been redeemed!",
+            "message":"Transaction processing request has been accepted successfully!",
             "lockCouponResponse":{lockcouponresponse},
             "processTrnxResponse":{processtransactionresponse},
             "redeemCouponResponse":{redeemcouponresult}
