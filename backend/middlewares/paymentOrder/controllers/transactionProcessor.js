@@ -38,9 +38,9 @@ if(lockcouponresponse.status == 200) {
     const secondStep = unlockcoupon(coupon_id)
     const unlockcouponresponse = await secondStep
     res.json({
-        "status":200,
-        "response":"Successful",
-        "message":"Transaction has been processed successfully. Coupon has been redeemed!",
+        "status":400,
+        "response":"Failed",
+        "message":"Transaction processing request failed!",
         "lockCouponResponse":{lockcouponresponse},
         "processTrnxResponse":"Skipped!",
         "redeemCouponResponse":{unlockcouponresponse}
