@@ -10,10 +10,11 @@
 # rename get to query for the api's
 # add share rate as array [organization wise, overall campaign wise => If no organization wise share rate found then campaign wise share rate will be considered]
 # Query valid coupon list for a coupon holder with/without min order value check
+# Create API for pre-transaction calculation of selected coupon in Payment Module system
 
 ////////////////////IN PROGRESS///////////////////
 
-# Create API for pre-transaction calculation of selected coupon in Payment Module system
+# mongo to mysql shift
 
 ////////////////////PENDING///////////////////
 
@@ -30,6 +31,8 @@
 # user creation API
 # user login API
 # access contoll for users
+# mongo to mysql shift
+# mindsdb exploration for db Machine Learning (AI)
 
 **************Frontend - Coupon admin portal*************
 
@@ -48,3 +51,35 @@
 # Comments and remarks
 # History of coupon activity
 # Coupon details page
+
+
+
+>>>>>>>>>>>>>> mysql db models <<<<<<<<<<<<<<<<<<<
+
+CREATE TABLE coupons(
+    id                          int AUTO_INCREMENT,
+    code                        VARCHAR(255),
+    holder_type                 VARCHAR(255),
+    holder_id                   VARCHAR(255),
+    discount_type               VARCHAR(255),
+    discount_amount             INT,
+    discount_order_component    VARCHAR(255),
+    max_discount_amount         INT,
+    min_trnx_amount             INT,
+    validity_start_from         DATETIME,
+    validity_end_on             DATETIME,
+    status                      VARCHAR(255),
+    created_at                  DATETIME,
+    PRIMARY KEY (id)
+)
+
+CREATE TABLE coupon_redeem_services (
+    id                  INT AUTO_INCREMENT,
+    service_name        VARCHAR(255),
+    service_id          VARCHAR(255),
+    coupon_id           INT,
+    created_at          DATETIME,
+    updated_at          DATETIME,
+    PRIMARY KEY (id),
+    FOREIGN KEY (coupon_id) REFERENCES coupons(id)
+)
