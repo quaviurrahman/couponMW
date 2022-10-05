@@ -15,7 +15,8 @@ const coupon = new mongoose.Schema ({
     discountShare:{type:[{
         redeemingPartyID: {type:String, required:true},
         shareRate: {type:Number, required:true}
-    }],required:true},
+    }],required:false},
+    discountShareRate:{type:Number, required:true},
     image_1:{type:String,required:false},
     image_2:{type:String,required:false},
     image_3:{type:String,required:false},

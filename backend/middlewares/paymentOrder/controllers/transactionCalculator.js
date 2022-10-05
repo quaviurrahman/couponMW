@@ -2,14 +2,24 @@ import axios from "axios"
 ///////////////////////////////////////couponOrderCalc////////////////////////////////////
 
 /* This particular controller function will recieve some data through API containing order values and the coupn
-applied by the user in the order. After receiving the data it will use it to calculate the order discount order value,
-discount amount in response. It will also calculate the share rate amount of the redeeming organisation and coupon issuer.
+applied by the user in the order. After receiving the data from the client it will query the coupon details from 
+the coupon system. Then using the payment information and the coupon details it will calculate the discount amount
+and generate related breakdowns which it will provide back as reponse to the client.It will also calculate the 
+share rate amount of the redeeming organisation and coupon issuer.
 
 There are four cases here:
 1. Discount is flat amount
 2. Discount in percentage with/without cap
 3. Discount on principal order value [considering share rate]
-4. Discount on order charge value */
+4. Discount on order charge value 
+
+In case of share rate calculation there are 2 different cases:
+1. the discountShare is a null array with no value : in this case system will not check redeeming party id and 
+will calculate the share for the provided redeeming party id using the discountShareRate parameter value.
+2. the discountShare is NOT null array: in this case the system will check redeeming party id. If redeeming party id
+is in the list of discountShare parameter array list then it will check whether shareRate value is provided. If the
+shareRate parameter value is provided for the redeeming party id then system will calculate using this shareRate value.
+*/
 
 export const couponOrderCalc = async (req,res) => {
     //global const throughout this function
@@ -23,14 +33,24 @@ export const couponOrderCalc = async (req,res) => {
     const shareRateAmount = redeeming_party_share_rate.filter(function (element) {
         return element != null
     })
+    const general_discount_share_rate = coupon_discount_details.discountShareRate
+ 
     
-    function findShareRate (shareRates) {
+if(redeeming_party_share_rates[0] == null) { //If the redeeming party share rate array is null then execute this block
+     var considered_share_rate = general_discount_share_rate
+} else { // or else if the redeeming party share rate array contains redeeming party and share rate information then execute this block
+        var considered_share_rate = shareRateAmount
+}
+    function findShareRate (shareRates) { //this function checks for a match of redeeming party id and returns the share rate for thar redeeming party id
         const share_Rate = shareRates
-        if (req.body.redeemingPartyID == share_Rate.redeemingPartyID) {
-            const result = share_Rate.shareRate
-            return result
-        }else return null
+        if(share_Rate != null) {
+            if (req.body.redeemingPartyID == share_Rate.redeemingPartyID) {
+                const result = share_Rate.shareRate
+                return result
+            }else return null
+            } else return null
         }
+        
     
     //Discount on Principal order value [considering share rate]
 if(coupon_discount_details.discountOrderComponent == "principal") {
@@ -40,7 +60,7 @@ if(coupon_discount_details.discountOrderComponent == "principal") {
             const discountValue = coupon_discount_details.max_discountAmount
             const discountedPrincipalValue = principal_order_value - discountValue
             const discountedTotalOrderValue =  discountedPrincipalValue + charge_value
-            const redeeming_party_share_rate_amount = (discountValue*(shareRateAmount/100))
+            const redeeming_party_share_rate_amount = (discountValue*(considered_share_rate/100))
             res.json({
                 "status":200,
                 "response":"Successful",
@@ -56,7 +76,7 @@ if(coupon_discount_details.discountOrderComponent == "principal") {
         } else {
             const discountedPrincipalValue = principal_order_value - discountValue
             const discountedTotalOrderValue =  discountedPrincipalValue + charge_value
-            const redeeming_party_share_rate_amount = (discountValue*(shareRateAmount/100))
+            const redeeming_party_share_rate_amount = (discountValue*(considered_share_rate/100))
             res.json({
                 "status":200,
                 "response":"Successful",
@@ -73,7 +93,7 @@ if(coupon_discount_details.discountOrderComponent == "principal") {
     } else if (coupon_discount_details.discountType == "flat") {
         const discountValue = coupon_discount_details.discountAmount
         const discountedPrincipalValue = (principal_order_value - discountValue)
-        const redeeming_party_share_rate_amount = (discountValue*(shareRateAmount/100))
+        const redeeming_party_share_rate_amount = (discountValue*(considered_share_rate/100))
         if(discountedPrincipalValue < 0) {
             res.json({
                 "status":400,

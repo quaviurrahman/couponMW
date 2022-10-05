@@ -31,8 +31,9 @@
 # user creation API
 # user login API
 # access contoll for users
-# mongo to mysql shift
 # mindsdb exploration for db Machine Learning (AI)
+# need to include the condition where if no share rate found for an organization then consider the overall share rate parameter
+# need to include the condition where if no contributors are provided then all organization will have the overall share rate config
 
 **************Frontend - Coupon admin portal*************
 
@@ -82,4 +83,37 @@ CREATE TABLE coupon_redeem_services (
     updated_at          DATETIME,
     PRIMARY KEY (id),
     FOREIGN KEY (coupon_id) REFERENCES coupons(id)
+)
+
+CREATE Table coupon_providers (
+    id              int AUTO_INCREMENT,
+    coupon_id       int,
+    provider_type   VARCHAR(255),
+    provider_id     VARCHAR(255),
+    created_at      DATETIME,
+    updated_at      DATETIME,
+    PRIMARY KEY (id),
+    Foreign Key (coupon_id) REFERENCES coupons(id)
+)
+
+CREATE Table coupon_holders (
+    id              INT AUTO_INCREMENT,
+    holder_type     VARCHAR(255),
+    holder_id       VARCHAR(255),
+    coupon_id       INT,
+    created_at      DATETIME,
+    updated_at      DATETIME,
+    PRIMARY KEY (id),
+    Foreign Key (coupon_id) REFERENCES coupons(id)
+)
+
+create table coupon_status_change_log (
+    id              int AUTO_INCREMENT,
+    coupon_id       int,
+    from_status     VARCHAR(255),
+    to_status       VARCHAR(255),
+    created_at      DATETIME,
+    updated_at      DATETIME,
+    PRIMARY KEY (id),
+    Foreign Key (coupon_id) REFERENCES coupons(id)
 )

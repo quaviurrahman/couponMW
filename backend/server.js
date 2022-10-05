@@ -14,12 +14,12 @@ dotenv.config();
 const port = process.env.PORT
 const app = express ()
 var scheduledcoupons
-const mysqldb = mysql.createConnection({
+/*const mysqldb = mysql.createConnection({
   host: process.env.MYSQLDB_HOST,
   user: process.env.MYSQL_USER,
   password: process.env.MYSQL_PASS,
   port:process.env.MYSQLDB_PORT
-})
+})*/
 
 ///////////////////////////////Coupon_Middleware////////////////////////////////
 app.use(express.json())
@@ -44,12 +44,12 @@ mongoose
 
 ////////////////////////////mySQL DB initialize//////////////////////////////
 
-mysqldb.connect((err)=> {
+/*mysqldb.connect((err)=> {
   if(err){
     throw err
   }
   console.log("MySQL connected!")
-})
+})*/
 
   /////////////////////////application initialize///////////////////////////
   app.listen(port, () => {
