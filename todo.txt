@@ -11,6 +11,7 @@
 # add share rate as array [organization wise, overall campaign wise => If no organization wise share rate found then campaign wise share rate will be considered]
 # Query valid coupon list for a coupon holder with/without min order value check
 # Create API for pre-transaction calculation of selected coupon in Payment Module system
+# need to include the condition where if no contributors are provided then all organization will have the overall share rate config
 
 ////////////////////IN PROGRESS///////////////////
 
@@ -32,8 +33,8 @@
 # user login API
 # access contoll for users
 # mindsdb exploration for db Machine Learning (AI)
-# need to include the condition where if no share rate found for an organization then consider the overall share rate parameter
-# need to include the condition where if no contributors are provided then all organization will have the overall share rate config
+# need to check for coupon applicability before locking redemption 
+
 
 **************Frontend - Coupon admin portal*************
 
