@@ -13,7 +13,7 @@ function doGet() {
     return obj
   })
 
-  const response = [{status:200,data:jsonArray}]
+  const response = [{data:jsonArray}]
 
   return ContentService
   .createTextOutput(JSON.stringify(response))
