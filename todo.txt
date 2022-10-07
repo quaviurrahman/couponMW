@@ -12,15 +12,15 @@
 # Query valid coupon list for a coupon holder with/without min order value check
 # Create API for pre-transaction calculation of selected coupon in Payment Module system
 # need to include the condition where if no contributors are provided then all organization will have the overall share rate config
+# bulk coupon code generator
 
 ////////////////////IN PROGRESS///////////////////
 
-# mongo to mysql shift
+# bulk scheduled coupon creation api //installed npm xlsx package for reading and writing form xlsx files
 
 ////////////////////PENDING///////////////////
 
 # notification module
-# bulk scheduled coupon creation api //installed npm xlsx package for reading and writing form xlsx files
 # introduce bull queue management
 # user and role management
 # Error handling
@@ -34,6 +34,8 @@
 # access contoll for users
 # mindsdb exploration for db Machine Learning (AI)
 # need to check for coupon applicability before locking redemption 
+# mongo to mysql shift
+# add x days of validity after coupon activation feature
 
 
 **************Frontend - Coupon admin portal*************
