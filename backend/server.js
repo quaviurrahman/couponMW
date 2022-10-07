@@ -5,6 +5,7 @@ import cps_transactions from "./middlewares/cps/routes/transactions.js"
 import paymentOrder_transactions from "./middlewares/paymentOrder/routes/transactionProcessor.js"
 import paymentOrder_calculations from "./middlewares/paymentOrder/routes/transactionCalculator.js"
 import generateCouponCode from "./routes/generateCouponCode.js"
+import uploadCouponHolderIDgsheet from "./routes/batchCouponIssue.js"
 import dotenv from "dotenv"
 import mongoose, { get } from "mongoose"
 import cron from "node-cron"
@@ -27,6 +28,7 @@ app.use(express.json())
 app.use("/users",users)
 app.use("/coupons",coupons)
 app.use("/couponCodeGenerator",generateCouponCode)
+app.use("/batchCouponIssue",uploadCouponHolderIDgsheet)
 
 ///////////////////////////////CPS_Middleware [MOCK]////////////////////////////////
 

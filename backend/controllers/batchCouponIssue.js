@@ -20,7 +20,8 @@ import batchCouponIssueTask from "../models/batchCouponIssue.js"
 import * as xlsx from "xlsx/xlsx.mjs"
 import * as fs from "fs"
 import google from "googleapis"
-//######################################## Create batch coupon issue task ############################################
+import axios from "axios"
+//######################################## Create  coupon issue task ############################################
 
 
 export const createBatchCouponIssueTask = async (req,res) => {
@@ -31,9 +32,12 @@ export const createBatchCouponIssueTask = async (req,res) => {
 //######################################## Upload coupon Holder id from gsheet ############################################
 
 
-export const uploadCouponHolderIDgsheet = async(req,res) => {
-const gsheetdata = fetch('https://script.google.com/macros/s/AKfycby-aAGke5agDxOt87cZR8km1y_SC8bdrdgnV4itHUiycXMG90sClLplVEtkmKYXK5ET/exec')
-                        .then(response => {
+export const uploadCouponHolderIDgsheet = async (req,res) => {
+const gsheetdata = await axios('https://script.googleusercontent.com/macros/echo?user_content_key=Q6-L3vksgNdoz4a3WZSrHnVz1JyeKYiDlLJOIiliffFT3E_stMKLYVHSmWTkHi3-bw74TPI9-ocKTOwORkFb1DRbehZVwhV5m5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnF_7rUKRqeFZ3WjXzAe5CG5dMZipato9T-gPigPP10e3TdimX4-7QDKVeXbx6WOqGjWVqixcsXFAltHogL9ElDi_6WNyKEQrJg&lib=MsdJAmit53eBqgUfqLEe39b8lFvJ_Aw0O')
+                        .then((response) => {
                             return response
                         })
-}
+                        res.send(gsheetdata.data)
+                    }
+
+export default uploadCouponHolderIDgsheet
