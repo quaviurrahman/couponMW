@@ -1,7 +1,7 @@
 import mongoose from "mongoose"
 
 const batchCouponIssueTask = new mongoose.Schema ({
-    task_name:{type:String,required:true},
+    taskName:{type:String,required:true},
     code:{type:String,required:true},
     holder_type:{type:String,required:true},
     holderId:{type:[String],required:true},

@@ -13,6 +13,7 @@
 # Create API for pre-transaction calculation of selected coupon in Payment Module system
 # need to include the condition where if no contributors are provided then all organization will have the overall share rate config
 # bulk coupon code generator
+# add x days of validity after coupon activation feature
 
 ////////////////////IN PROGRESS///////////////////
 
@@ -35,7 +36,7 @@
 # mindsdb exploration for db Machine Learning (AI)
 # need to check for coupon applicability before locking redemption 
 # mongo to mysql shift
-# add x days of validity after coupon activation feature
+
 
 
 **************Frontend - Coupon admin portal*************

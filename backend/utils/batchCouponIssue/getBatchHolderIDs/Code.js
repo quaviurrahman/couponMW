@@ -7,8 +7,8 @@ function doGet() {
 
   const jsonArray = data.map(r => {
     let obj = {}
-    headers.forEach((h,i) => {
-      obj[h] = r[i]
+    headers.forEach((i,h) => {
+      obj[i] = r[h]
     })
     return obj
   })

@@ -33,11 +33,16 @@ export const createBatchCouponIssueTask = async (req,res) => {
 
 
 export const uploadCouponHolderIDgsheet = async (req,res) => {
-const gsheetdata = await axios('https://script.googleusercontent.com/macros/echo?user_content_key=Q6-L3vksgNdoz4a3WZSrHnVz1JyeKYiDlLJOIiliffFT3E_stMKLYVHSmWTkHi3-bw74TPI9-ocKTOwORkFb1DRbehZVwhV5m5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnF_7rUKRqeFZ3WjXzAe5CG5dMZipato9T-gPigPP10e3TdimX4-7QDKVeXbx6WOqGjWVqixcsXFAltHogL9ElDi_6WNyKEQrJg&lib=MsdJAmit53eBqgUfqLEe39b8lFvJ_Aw0O')
+    const gsheetdata = await axios('https://script.google.com/macros/s/AKfycbwPTuJTTqhZJ4Ix3zc5WIBjIKtHwS_qelFkRoGwxIMjfkfIiliyrz3_4v5iA1M0Aute/exec')
                         .then((response) => {
                             return response
                         })
                         res.send(gsheetdata.data)
+    await batchCouponIssueTask.findByIdAndUpdate(req.params.batchCouponIssueTaskID,{holderID:gsheetdata.data},{new:true})
+
+
                     }
+
+
 
 export default uploadCouponHolderIDgsheet

@@ -20,6 +20,9 @@
 
 
 import coupons from "../models/coupon.js"
+import express from "express"
+import date from "date-and-time"
+import dateformat from "dateformat"
 
 /////////////////////////////////couponIssue/////////////////////////////////////
 
@@ -30,10 +33,12 @@ import coupons from "../models/coupon.js"
  status will be "valid" */
 
  export const couponIssue = async (req,res) => {
-    const validityEndDate = Date.parse(req.body.validity_end_on)
+if (req.body.valid_for == 0) {
+    const validityEndDate = Date.parse(req.body.validity_start_from) + (req.body.valid_for*86400000)
+    const finalValidityEndDate = dateformat(Date(validityEndDate),"isoUtcDateTime")
     const validityStartedAt = Date.parse(req.body.validity_start_from)
+    
     const createdAt = Date.parse(Date())
-
     var status
     if(createdAt<validityStartedAt) {
         status = "scheduled"
@@ -47,15 +52,45 @@ import coupons from "../models/coupon.js"
     else {
         status = "unknown"
     }
-
-    const newcoupon = new coupons({...req.body,created_at:Date(),status:status})
+    const newcoupon = new coupons({...req.body,created_at:Date(),status:status,validity_end_on:finalValidityEndDate})
     await newcoupon.save()
     res.json({
         status:200,
         response:"Successful",
-        message:"Coupon Created Successfully"
+        message:"Coupon Created Successfully",
+        coupon: newcoupon
     })
+} else {
+    const validityEndDate = Date.parse(req.body.validity_end_on)
+    const finalValidityEndDate = dateformat(Date(validityEndDate),"isoUtcDateTime")
+    const validityStartedAt = Date.parse(req.body.validity_start_from)
+    
+    const createdAt = Date.parse(Date())
+    var status
+    if(createdAt<validityStartedAt) {
+        status = "scheduled"
+    }
+    else if (createdAt>validityStartedAt && createdAt<validityEndDate) {
+        status = "active"
+    }
+    else if (createdAt>validityEndDate) {
+        status = "expired"
+    }
+    else {
+        status = "unknown"
+    }
+    const newcoupon = new coupons({...req.body,created_at:Date(),status:status,validity_end_on:finalValidityEndDate})
+    await newcoupon.save()
+    res.json({
+        status:200,
+        response:"Successful",
+        message:"Coupon Created Successfully",
+        coupon: newcoupon
+    })
+
 }
+}
+    
 //////////////////////////////////couponCancel///////////////////////////////////////
 
 /*checking the current status of the coupon before cancelling a coupon. If the current status of the coupon is "redeemed",
