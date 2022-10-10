@@ -25,8 +25,9 @@ import axios from "axios"
 
 
 export const createBatchCouponIssueTask = async (req,res) => {
-    const newbatchcouponissuetask = new batchCouponIssueTask({...req.body,created_at:Date(),taskStatus:"drafted"})
+    const newbatchcouponissuetask = new batchCouponIssueTask({...req.body,task_created_at:Date(),taskStatus:"drafted"})
     await newbatchcouponissuetask.save()
+    res.json(newbatchcouponissuetask)
 }
 
 //######################################## Upload coupon Holder id from gsheet ############################################
@@ -37,12 +38,36 @@ export const uploadCouponHolderIDgsheet = async (req,res) => {
                         .then((response) => {
                             return response
                         })
-                        res.send(gsheetdata.data)
-    await batchCouponIssueTask.findByIdAndUpdate(req.params.batchCouponIssueTaskID,{holderID:gsheetdata.data},{new:true})
+                        //res.send(gsheetdata.data)
+                        var result = []
+                        gsheetdata.data[0].data.forEach(i => {
+                            result.push(i.holderID)
+                        })
+                        const fetchedTask = await batchCouponIssueTask.findById(req.body.taskID)
+                        result.forEach(i => {
+                            fetchedTask.holderId.push(i)
+                        })
+                        await batchCouponIssueTask.findByIdAndUpdate(req.body.taskID,fetchedTask,{new:true})
+                        res.json({
+                            "status":200,
+                            "message":"HolderID data pushed successfully!",
+                            "tasksID":req.body.taskID,
+                            "holderID":fetchedTask
 
-
+                        })
                     }
 
 
+//######################################## Get ALL coupon issue task details #############################################
 
-export default uploadCouponHolderIDgsheet
+export const getALLbatchCouponIssueTasks = async (req,res) => {
+    const result = await batchCouponIssueTask.find()
+    res.json(result)
+}
+
+
+export default { 
+    uploadCouponHolderIDgsheet,
+    createBatchCouponIssueTask,
+    getALLbatchCouponIssueTasks
+}

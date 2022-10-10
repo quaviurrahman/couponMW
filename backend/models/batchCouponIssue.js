@@ -22,11 +22,12 @@ const batchCouponIssueTask = new mongoose.Schema ({
     image_2:{type:String,required:false},
     image_3:{type:String,required:false},
     min_trnx_amount:{type:Number,required:true},
-    validity_start_from:{type:Date,required:true},
-    validity_end_on:{type:Date,required:true},
-    task_created_at:{type:Date,required:true},
+    validity_start_from:{type:String,required:true},
+    validity_end_on:{type:String,required:true},
+    valid_for:{type:String,required:true},
+    task_created_at:{type:Date,required:false},
     scheduled_for_issue_at:{type:Date,required:false},
-    taskStatus:{type:String,required:true}
+    taskStatus:{type:String,required:false}
 },
 {timestamps : true})
 

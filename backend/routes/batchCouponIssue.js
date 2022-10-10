@@ -1,8 +1,10 @@
 import express from "express"
-import uploadCouponHolderIDgsheet from "../controllers/batchCouponIssue.js"
+import { uploadCouponHolderIDgsheet,createBatchCouponIssueTask,getALLbatchCouponIssueTasks } from "../controllers/batchCouponIssue.js"
 
 const router = express.Router()
 
-router.get("/getHolderIDlist",uploadCouponHolderIDgsheet)
+router.get("/uploadHolderIDlistFromGsheet",uploadCouponHolderIDgsheet)
+router.post("/createbatchcouponissuetask",createBatchCouponIssueTask)
+router.get("/getALLbatchCouponIssueTasks",getALLbatchCouponIssueTasks)
 
 export default router
