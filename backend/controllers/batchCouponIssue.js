@@ -21,6 +21,7 @@ import * as xlsx from "xlsx/xlsx.mjs"
 import * as fs from "fs"
 import google from "googleapis"
 import axios from "axios"
+
 //######################################## Create  coupon issue task ############################################
 
 
@@ -98,3 +99,38 @@ export const uploadShareRatesgsheet = async (req,res) => {
 
                         })
                     }
+
+export const executeCouponIssueBatchTask = async (req,res) => {
+    const batchTaskID = req.body.taskID
+    const batchTask = await batchCouponIssueTask.findById(batchTaskID)
+    const newIssuedCoupons = await batchTask.holderId.forEach(i => {
+        const url = 'http://localhost:8800/coupons/create'
+        const params = {
+            "code":"AWWD9932",
+            "holder_type":batchTask.holder_type,
+            "desc_1":batchTask.desc_1,
+            "desc_2":batchTask.desc_2,
+            "desc_3":batchTask.desc_3,
+            "discountType":batchTask.discountType,
+            "discountAmount":batchTask.discountAmount,
+            "discountOrderComponent":batchTask.discountOrderComponent,
+            "max_discountAmount":batchTask.max_discountAmount,
+            "redeemingServiceID":batchTask.redeemingServiceID,
+            "discountShare":batchTask.discountShare,
+            "discountShareRate":batchTask.discountShareRate,
+            "image_1":batchTask.image_1,
+            "image_2":batchTask.image_2,
+            "image_3":batchTask.image_3,
+            "min_trnx_amount":batchTask.min_trnx_amount,
+            "validity_start_from":batchTask.validity_start_from,
+            "validity_end_on":batchTask.validity_end_on,
+            "valid_for":batchTask.valid_for,
+            "scheduled_for_issue_at":batchTask.scheduled_for_issue_at,
+            "holderId":i
+        }
+        axios
+                .post(url,params)
+                .then((response) => {return response})
+    })
+    res.json(newIssuedCoupons)
+}
