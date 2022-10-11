@@ -71,3 +71,30 @@ export default {
     createBatchCouponIssueTask,
     getALLbatchCouponIssueTasks
 }
+
+//######################################## Upload coupon SHARE RATES from gsheet ############################################
+
+
+export const uploadShareRatesgsheet = async (req,res) => {
+    const gsheetdata = await axios('https://script.google.com/macros/s/AKfycbxWNaXNjw1-iR25NOo234iVZjSCia0C8ullJd7kYotkY6Mno67X8Ay1RV9dqIUi1kU/exec')
+                        .then((response) => {
+                            return response
+                        })
+                        // res.send(gsheetdata.data)
+                        var result = []
+                        gsheetdata.data[0].data.forEach(i => {
+                            result.push({"redeemingPartyID":i.payerIdentityID,"shareRate":i.contributionPerc})
+                        })
+                        const fetchedTask = await batchCouponIssueTask.findById(req.body.taskID)
+                        result.forEach(i => {
+                            fetchedTask.discountShare.push(i)
+                        })
+                        await batchCouponIssueTask.findByIdAndUpdate(req.body.taskID,fetchedTask,{new:true})
+                        res.json({
+                            "status":200,
+                            "message":"Share Rate data pushed successfully!",
+                            "tasksID":req.body.taskID,
+                            "holderID":fetchedTask
+
+                        })
+                    }
