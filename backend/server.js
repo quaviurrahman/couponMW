@@ -1,5 +1,5 @@
 import express from "express"
-import users from "./routes/user.js"
+import profiles from "./routes/profiles.js"
 import coupons from "./routes/coupon.js"
 import cps_transactions from "./middlewares/cps/routes/transactions.js"
 import paymentOrder_transactions from "./middlewares/paymentOrder/routes/transactionProcessor.js"
@@ -25,7 +25,7 @@ var scheduledcoupons
 
 ///////////////////////////////Coupon_Middleware////////////////////////////////
 app.use(express.json())
-app.use("/users",users)
+app.use("/profiles",profiles)
 app.use("/coupons",coupons)
 app.use("/couponCodeGenerator",generateCouponCode)
 app.use("/batchCouponIssue",uploadCouponHolderIDgsheet)

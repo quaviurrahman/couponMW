@@ -21,9 +21,12 @@
     --> installed npm xlsx package for reading and writing form xlsx files [Done]
     --> upload holderID in bulk from gsheet [Done]
     --> upload shareRate in bulk from gsheet [Done]
+    --> execute batch coupon issue task for a specific task [Done]
+  
     --> upload holderID & shareRate in bulk from xlsx
     --> manage input validation by pushing error message data in ghseet and xlsx 
     --> initiate a scheduler to call issueCoupon API and issue coupon on scheduled time&date
+    --> handle automatic/manual code generation system
 
 ////////////////////PENDING///////////////////
 
