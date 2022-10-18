@@ -7,6 +7,7 @@ import {
     getProfile, 
     getAllProfiles
 } from "../controllers/profiles.js"
+import { verifyToken } from "../utils/auth/verifyToken.js"
 
 const router = express.Router()
 
@@ -16,5 +17,7 @@ router.post("/updateProfile", updateProfile)
 router.post("/deactivateProfile", deactivateProfile)
 router.get("/getProfile", getProfile)
 router.get("/getAllProfiles", getAllProfiles)
+router.get("/verifyToken",verifyToken)
+
 
 export default router

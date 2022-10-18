@@ -1,8 +1,8 @@
 import mongoose from "mongoose"
 
-const profiles = new mongoose.Schema({
-    username: { type: String, required: true },
-    passphrase: { type: String, required: true },
+const organizationKYC = new mongoose.Schema({
+    name: { type: String, required: true },
+    shortcode: { type: String, required: true },
     status: { type: String, required: true },
     aggregatorID: { type: Number, required: false },
     organizationID: { type: Number, required: false },
