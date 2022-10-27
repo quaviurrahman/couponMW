@@ -2,7 +2,8 @@ import jwt from "jsonwebtoken"
 import { createError } from "../errorHandler/error.js"
 
 export const verifyToken = (req,res,next) => {
-    const token = req.cookies.access_token
+    const header = req.headers.cookie
+    const token = header.split("=")[1]
     if(!token){
         return res.status(400).json({
             error:true,
@@ -16,7 +17,7 @@ export const verifyToken = (req,res,next) => {
         })
         req.user = user;
         return res
-        .status(500)
+        .status(200)
         .json({
             user: user,
             token
