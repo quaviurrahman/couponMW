@@ -2,7 +2,7 @@ import mongoose from "mongoose"
 
 const couponOrders = new mongoose.Schema({
     coupon_ID: { type:String, required: true},
-    ref_Order_ID: { type:String, required: false},
+    ref_order_ID: { type:String, required: false},
     created_at: { type:Date, required: true},
     status: { type:String, required: true}, //Pending, Cancelled, Successfull, Failed
     cancelled_at: { type:Date, required: false},
